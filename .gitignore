@@ -23,3 +23,11 @@ storage/iceberg/
 
 *.parquet
 *.crc
+
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+
+.env
