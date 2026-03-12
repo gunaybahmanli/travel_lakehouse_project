@@ -41,7 +41,7 @@ def main() -> None:
     if not api_key:
         raise ValueError("WEATHER_API_KEY not found in environment variables")
     
-    countries_path = Path("data/raw/static/countries.csv")
+    countries_path = Path("/opt/airflow/data/raw/static/countries.csv")
     if not countries_path.exists():
         raise FileNotFoundError(f"{countries_path} not found")
     
@@ -57,7 +57,7 @@ def main() -> None:
     extraction_date = datetime.utcnow().strftime("%Y-%m-%d")
     extraction_ts = datetime.utcnow().isoformat()
 
-    output_base = Path("data/raw/api/weather") / f"extraction_date={extraction_date}"
+    output_base = Path("/opt/airflow/data/raw/api/weather") / f"extraction_date={extraction_date}"
     ensure_directory(output_base)
 
     success_count = 0

@@ -10,7 +10,7 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
     AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
-    _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-postgres apache-airflow-providers-docker requests boto3"
+    _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-postgres apache-airflow-providers-docker requests boto3 pandas python-dotenv minio"
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     AWS_DEFAULT_REGION: ${AWS_REGION}
@@ -20,6 +20,7 @@ x-airflow-common: &airflow-common
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
     - ./data:/opt/airflow/data
+    - ./scripts:/opt/airflow/scripts
     - ./spark/jobs:/opt/airflow/spark_jobs
     - /var/run/docker.sock:/var/run/docker.sock
   user: "${AIRFLOW_UID}:${AIRFLOW_GID}"

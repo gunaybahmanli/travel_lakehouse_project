@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 def upload_directory_to_minio(local_path: Path, bucket_name: str, minio_client):
     for file_path in local_path.rglob("*.json"):
 
-        relative_path = file_path.relative_to(Path("data/raw"))
+        relative_path = file_path.relative_to(Path("/opt/airflow/data/raw"))
         object_name = str(relative_path).replace("\\", "/")
 
         print(f"Uploading {file_path} to bucket '{bucket_name}' as '{object_name}'")
@@ -34,7 +34,7 @@ def main():
 
     bucket = "raw"
 
-    local_weather_path = Path("data/raw/api/weather")
+    local_weather_path = Path("/opt/airflow/data/raw/api/weather")
 
     if not local_weather_path.exists():
         raise FileNotFoundError(f"{local_weather_path} not found. Please run fetch_weather_api.py first.")
