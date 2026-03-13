@@ -13,10 +13,11 @@ default_args = {
 with DAG(
     dag_id = "weather_ingestion_dag",
     default_args = default_args,
-    description = "A DAG to ingest weather data and upload to Minio",
-    start_date = datetime(2026, 3, 12),
+    description = "Fetch weather data, upload raw JSON to MinIO, and transform to bronze",
+    start_date = datetime(2026, 3, 13),
     schedule_interval = "@daily",
     catchup = False,
+    tags = ["weather", "lakehouse", "bronze"]
 ) as dag:
     
     fetch_weather = BashOperator(
@@ -30,4 +31,22 @@ with DAG(
         bash_command = "python /opt/airflow/scripts/ingest/upload_weather_to_minio.py",
     )
 
-    fetch_weather >> upload_weather
+    weather_raw_to_bronze = BashOperator(
+        task_id="weather_raw_to_bronze",
+        bash_command="""
+        docker exec travel_spark_master /opt/spark/bin/spark-submit \
+          --master spark://spark-master:7077 \
+          --packages org.apache.hadoop:hadoop-aws:3.3.4 \
+          --conf spark.jars.ivy=/tmp/.ivy2 \
+          --conf spark.hadoop.fs.s3a.endpoint=http://minio:9000 \
+          --conf spark.hadoop.fs.s3a.access.key=minioadmin \
+          --conf spark.hadoop.fs.s3a.secret.key=minioadmin123 \
+          --conf spark.hadoop.fs.s3a.path.style.access=true \
+          --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
+          --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false \
+          /opt/spark/jobs/transform/weather_raw_to_bronze.py {{ ds }}
+        """,
+    )
+
+
+    fetch_weather >> upload_weather >>  weather_raw_to_bronze
