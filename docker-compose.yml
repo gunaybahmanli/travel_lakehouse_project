@@ -94,12 +94,15 @@ services:
       - "8080:8080"
       - "7077:7077"
     environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}aa
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
     volumes:
       - ./spark/jobs:/opt/spark/jobs
       - ./data:/opt/spark/data
+      - ./spark/jars/hadoop-aws-3.3.4.jar:/opt/spark/jars/hadoop-aws-3.3.4.jar
+      - ./spark/jars/aws-java-sdk-bundle-1.12.262.jar:/opt/spark/jars/aws-java-sdk-bundle-1.12.262.jar
+      - ./spark/jars/wildfly-openssl-1.0.7.Final.jar:/opt/spark/jars/wildfly-openssl-1.0.7.Final.jar
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
 
   spark-worker:
@@ -115,7 +118,37 @@ services:
     volumes:
       - ./spark/jobs:/opt/spark/jobs
       - ./data:/opt/spark/data
+      - ./spark/jars/hadoop-aws-3.3.4.jar:/opt/spark/jars/hadoop-aws-3.3.4.jar
+      - ./spark/jars/aws-java-sdk-bundle-1.12.262.jar:/opt/spark/jars/aws-java-sdk-bundle-1.12.262.jar
+      - ./spark/jars/wildfly-openssl-1.0.7.Final.jar:/opt/spark/jars/wildfly-openssl-1.0.7.Final.jar
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+
+
+  spark-thrift:
+    image: apache/spark:3.5.1
+    container_name: travel_spark_thrift
+    depends_on:
+      - spark-master
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./spark/jars/hadoop-aws-3.3.4.jar:/opt/spark/jars/hadoop-aws-3.3.4.jar
+      - ./spark/jars/aws-java-sdk-bundle-1.12.262.jar:/opt/spark/jars/aws-java-sdk-bundle-1.12.262.jar
+      - ./spark/jars/wildfly-openssl-1.0.7.Final.jar:/opt/spark/jars/wildfly-openssl-1.0.7.Final.jar
+    command: >
+      bash -c "/opt/spark/sbin/start-thriftserver.sh
+      --master spark://spark-master:7077
+      --conf spark.hadoop.fs.s3a.endpoint=http://minio:9000
+      --conf spark.hadoop.fs.s3a.access.key=minioadmin
+      --conf spark.hadoop.fs.s3a.secret.key=minioadmin123
+      --conf spark.hadoop.fs.s3a.path.style.access=true
+      --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+      --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false
+      --hiveconf hive.server2.thrift.bind.host=0.0.0.0
+      --hiveconf hive.server2.thrift.port=10000
+      && tail -f /opt/spark/logs/*thriftserver*.out"
+
+
 
   airflow-init:
     <<: *airflow-common
@@ -157,3 +190,5 @@ services:
 volumes:
   postgres_data:
   minio_data:
+
+

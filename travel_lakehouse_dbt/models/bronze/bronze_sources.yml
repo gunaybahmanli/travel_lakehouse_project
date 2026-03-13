@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: default
+    tables:
+
+      - name: weather_api
+
+      - name: countries
+
+      - name: cities
+
+      - name: attractions
+
+      - name: local_foods
+
+      - name: restaurants
+
+      - name: country_costs

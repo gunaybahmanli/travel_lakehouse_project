@@ -1,0 +1,21 @@
+select
+    country_id,
+    city_id,
+    city_name,
+    attraction_id,
+    attraction_name,
+    attraction_type,
+    short_description,
+    entry_fee,
+    currency,
+    duration,
+    family,
+    months,
+    google_map_ref,
+    rating,
+    reviews,
+    created_at,
+    updated_at,
+    source_file,
+    bronze_loaded_at
+from default.attractions

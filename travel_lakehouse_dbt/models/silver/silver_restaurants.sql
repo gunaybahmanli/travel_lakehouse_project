@@ -1,0 +1,19 @@
+select
+    restaurant_id,
+    country_id,
+    city_id,
+    restaurant_name,
+    cuisine_type,
+    address_raw,
+    price_tier,
+    rating_raw,
+    review_count_raw,
+    ranking_position_raw,
+    opening_hours_raw,
+    phone,
+    website,
+    created_at,
+    updated_at,
+    source_file,
+    bronze_loaded_at
+from default.restaurants

@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Mar 13 15:27:55 AZT 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-019c-e6f3-fb8f-000000b80bd0 
+on database directory D:\DataEngineeringProjects\travel-lakehouse-project\travel_lakehouse_dbt\metastore_db with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@3fee733d 
+Loaded from file:/C:/Users/User/spark/spark-4.0.1/jars/derby-10.16.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=21.0.9+7-LTS-338
+user.dir=D:\DataEngineeringProjects\travel-lakehouse-project\travel_lakehouse_dbt
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
