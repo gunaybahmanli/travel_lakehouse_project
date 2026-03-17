@@ -1,0 +1,8 @@
+[
+    {
+        "country_name": "Albania",
+        "capital_city": "Tirana",
+        "country_code": "AL",
+        "error": "HTTPSConnectionPool(host='api.weatherapi.com', port=443): Max retries exceeded with url: /v1/forecast.json?key=43e37c7544b5424ab5e133418261103&q=Tirana&days=7&aqi=no&alerts=no (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x71199616cbf0>: Failed to resolve 'api.weatherapi.com' ([Errno -3] Temporary failure in name resolution)\"))"
+    }
+]
