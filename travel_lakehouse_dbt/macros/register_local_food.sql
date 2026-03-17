@@ -5,11 +5,11 @@
   {% endcall %}
 
   {% call statement('drop_table', fetch_result=False) %}
-    drop table if exists default.local_foods
+    drop table if exists default.local_food
   {% endcall %}
 
   {% call statement('create_table', fetch_result=False) %}
-    create table default.local_foods
+    create table default.local_food
     using parquet
     location 's3a://bronze/static/local_foods/'
   {% endcall %}

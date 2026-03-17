@@ -13,4 +13,4 @@ select
     updated_at,
     source_file,
     bronze_loaded_at
-from default.local_foods
+from default.local_food

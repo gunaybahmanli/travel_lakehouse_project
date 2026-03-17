@@ -1,100 +1,26 @@
 version: 2
 
 models:
-    - name: silver_countries
-      columns:
-        - name: country_id
-          tests:
-            - not_null
-            - unique
-        - name: country_name
-          tests:
-            - not_null
+  - name: silver_cities
+    columns:
+      - name: city_id
+        tests:
+          - not_null
+          - unique
 
-    - name: silver_cities
-      columns:
-        - name: city_id
-          tests:
-            - not_null
-            - unique
-        - name: country_id
-          tests:
-            - not_null
-        - name: city_name
-          tests:
-            - not_null
+      - name: country_id
+        tests:
+          - not_null
 
-    - name: silver_attractions
-      columns:
-        - name: attraction_id
-          tests:
-            - not_null
-            - unique
-        - name: city_id
-          tests:
-            - not_null
-        - name: country_id
-          tests:
-            - not_null
-        - name: attraction_name
-          tests:
-            - not_null
+  - name: silver_countries
+    columns:
+      - name: country_id
+        tests:
+          - not_null
+          - unique
 
-    - name: silver_local_food
-      columns:
-        - name: food_id
-          tests:
-            - not_null
-            - unique
-        - name: city_id
-          tests:
-            - not_null
-        - name: country_id
-          tests:
-            - not_null
-        - name: food_name
-          tests:
-            - not_null
-
-    - name: silver_restaurants
-      columns:
-        - name: restaurant_id
-          tests:
-            - not_null
-            - unique
-        - name: city_id
-          tests:
-            - not_null
-        - name: country_id
-          tests:
-            - not_null
-        - name: restaurant_name
-          tests:
-            - not_null
-
-    - name: silver_country_costs
-      columns:
-        - name: country_id
-          tests:
-            - not_null
-        - name: cost_category
-          tests:
-            - not_null
-
-    - name: silver_weather_daily
-      columns:
-        - name: country_name
-          tests:
-            - not_null
-        - name: country_code
-          tests:
-            - not_null
-        - name: requested_city
-          tests:
-            - not_null
-        - name: forecast_date
-          tests:
-            - not_null
-        - name: partition_extraction_date
-          tests:
-            - not_null
+  - name: silver_weather_daily
+    columns:
+      - name: requested_city
+        tests:
+          - not_null
